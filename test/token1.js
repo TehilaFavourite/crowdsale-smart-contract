@@ -46,7 +46,7 @@ contract("Deploying", function (accounts) {
 
   describe("Deploying", async () => {
     it("transfers to the recipient", async () => {
-      const amount = Web3.utils.toWei("10", "ether");
+      const amount = Web3.utils.toWei("100", "ether");
       await tokenInstance.transfer(receiver, amount, { from: owner });
 
       const _balanceOf = await tokenInstance.balanceOf(owner);
@@ -64,7 +64,7 @@ contract("Deploying", function (accounts) {
     });
     it("approves tokens for delegated transfer", async () => {
       const amount = web3.utils.toWei("500", "ether");
-      const amt = web3.utils.toWei("50", "ether");
+      const amt = web3.utils.toWei("100", "ether");
       await tokenInstance.approve(spender, amount, {
         from: owner,
       });

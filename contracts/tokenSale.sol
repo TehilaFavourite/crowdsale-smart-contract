@@ -9,11 +9,13 @@ contract tokenSale {
     uint256 public tokenPrice;
     uint256 public tokenSold;
     uint256 public iBUyToken;
+    bool public saleStatus;
     // uint256 public balanceOf
     constructor (token1 _tokenContract, uint256 _tokenPrice) {
         admin = msg.sender;
         token1Contract = _tokenContract;
         tokenPrice = _tokenPrice;
+        saleStatus = true;
     }
 
     modifier onlyAdmin {
@@ -30,13 +32,20 @@ contract tokenSale {
         uint256 uBuyTokens = mul(msg.value, tokenPrice) / 1e18;
         require(msg.value > 0, "insufficient value");
         require(token1Contract.balanceOf(address(this)) >= uBuyTokens, "insufficient contract funds");
-        require(token1Contract.transfer(msg.sender, uBuyTokens), "transfer is not successful");
+        require(!saleStatus, "sales has ended");
         iBUyToken += uBuyTokens;
         tokenSold = msg.value;
+        require(token1Contract.transfer(msg.sender, uBuyTokens), "transfer is not successful");
+        
     }
 
-    function endSale() external onlyAdmin {
+    function    () external onlyAdmin {
         require(token1Contract.transfer(admin, token1Contract.balanceOf(address(this))), "no token remaining");
+        saleStatus = false;
+    }
+
+    function resumeSales() external onlyAdmin {
+        saleStatus = true;
     }
 
     function destroySmartContract(address payable _to) external onlyAdmin {

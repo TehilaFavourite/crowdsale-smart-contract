@@ -8,7 +8,7 @@ contract("Deploying", function (accounts) {
   let tokenSaleInstance, tokenInstance;
   let admin = owner;
   let tokenPrice = Web3.utils.toWei("2", "ether");
-  let tokenAvailable = Web3.utils.toWei("500", "ether");
+  let tokenAvailable = Web3.utils.toWei("300", "ether");
 
   beforeEach(async () => {
     tokenInstance = await Token1.new();
@@ -54,6 +54,7 @@ contract("Deploying", function (accounts) {
       console.log("the balance of admin is:", _balanceOf.toString());
       console.log("the balance of admin is:", _balanceOf.toString());
     });
+
     it("allows admin to end sales", async () => {
       await tokenSaleInstance.endSale({ from: admin });
       console.log("the sales has ended");
@@ -63,6 +64,7 @@ contract("Deploying", function (accounts) {
         _balanceOf.toString()
       );
     });
+    
     it("destroys the smart contract", async () => {
       await tokenSaleInstance.tokenPrice();
       console.log("token price was reset after self destruct was called");
